@@ -21,7 +21,7 @@
       <!-- Sidebar toggle button -->
       <button class="toggle-btn" @click="toggleSidebar">
         <span class="material-icons">
-          {{ isSidebarCollapsed ? "chevron_right" : "chevron_left" }}
+          {{ isSidebarCollapsed ? 'chevron_right' : 'chevron_left' }}
         </span>
       </button>
     </aside>
@@ -35,49 +35,52 @@
         <!-- Dark Mode Toggle -->
         <button class="toggle-mode-btn" @click="toggleTheme">
           <span class="material-icons">
-            {{ theme === "dark" ? "light_mode" : "dark_mode" }}
+            {{ theme === 'dark' ? 'light_mode' : 'dark_mode' }}
           </span>
         </button>
       </header>
 
       <!-- Main Content -->
       <main class="content">
-        <router-view />
+        <!-- Render content passed from App.vue -->
+        <slot />
       </main>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import CustomLink from "./material/CustomLink.vue";
+import { ref } from 'vue'
+import CustomLink from './material/CustomLink.vue'
 
 defineProps<{
-  menuItems: { link: string; label: string }[];
-  appName: string;
-}>();
+  menuItems: { link: string; label: string }[]
+  appName: string
+}>()
 
-const isSidebarCollapsed = ref(false);
-const theme = ref(localStorage.getItem("theme") || "light");
+const isSidebarCollapsed = ref(false)
+const theme = ref(localStorage.getItem('theme') || 'light')
 
 const toggleSidebar = () => {
-  isSidebarCollapsed.value = !isSidebarCollapsed.value;
-};
+  isSidebarCollapsed.value = !isSidebarCollapsed.value
+}
 
 const toggleTheme = () => {
-  theme.value = theme.value === "dark" ? "light" : "dark";
-  localStorage.setItem("theme", theme.value);
-};
+  theme.value = theme.value === 'dark' ? 'light' : 'dark'
+  localStorage.setItem('theme', theme.value)
+}
 </script>
-<style scoped>
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+<style>
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 /* Main Layout */
 .layout {
   display: flex;
   height: 100vh;
-  font-family: "Roboto", sans-serif;
-  transition: background-color 0.3s, color 0.3s;
+  font-family: 'Roboto', sans-serif;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
   overflow: hidden;
 }
 
@@ -86,10 +89,12 @@ const toggleTheme = () => {
   background: #37474f;
   color: white;
   padding: 1rem;
-  width: 250px;  /* Adjusted width for better fit */
+  width: 250px; /* Adjusted width for better fit */
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease, background-color 0.3s ease;
+  transition:
+    width 0.3s ease,
+    background-color 0.3s ease;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
   border-radius: 0 8px 8px 0;
 }
@@ -107,7 +112,7 @@ const toggleTheme = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;  /* Added margin for spacing */
+  margin-bottom: 1.5rem; /* Added margin for spacing */
 }
 
 /* Menu */
@@ -129,7 +134,9 @@ const toggleTheme = () => {
   display: flex;
   align-items: center;
   gap: 12px;
-  transition: background-color 0.3s ease, padding-left 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    padding-left 0.2s ease;
 }
 
 .menu li:hover {
@@ -164,9 +171,11 @@ const toggleTheme = () => {
 .main-container {
   flex-grow: 1;
   background-color: #eceff1;
-  border-radius: 8px;
-  margin-left: 15px;
+  /* Removed margin-left: 15px; */
+  /* Removed border-radius: 8px; */
   overflow: hidden;
+  display: flex; /* Added */
+  flex-direction: column; /* Added */
   transition: background-color 0.3s ease;
 }
 
@@ -183,9 +192,16 @@ const toggleTheme = () => {
   border-radius: 8px 8px 0 0;
   transition: background-color 0.3s ease;
 
-  position: sticky;  /* Makes the header sticky */
-  top: 0;  /* Sticks the header to the top */
-  z-index: 1000;  
+  position: sticky; /* Makes the header sticky */
+  top: 0; /* Sticks the header to the top */
+  z-index: 1000;
+}
+
+/* Main content area below header */
+.content {
+  flex-grow: 1; /* Added: Takes remaining vertical space */
+  overflow-y: auto; /* Added: Allows scrolling within content area */
+  padding: 1rem; /* Optional: Add some padding */
 }
 
 /* Toggle Mode Button */
@@ -234,12 +250,12 @@ const toggleTheme = () => {
 }
 
 /* Ensure proper scroll handling */
-.layout .main-container, .menu {
-  overflow-y: auto;  /* Ensures scroll works in both main content and sidebar */
+.layout .main-container,
+.menu {
+  overflow-y: auto; /* Ensures scroll works in both main content and sidebar */
 }
 
 .layout.dark .menu li:hover {
   background-color: #444;
 }
-
 </style>
